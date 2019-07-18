@@ -4,7 +4,7 @@ cd "$DESKTOP"/TIL_daily/notes
 
 # define empty post
 read -r -d '' POST << EOM
-##### Title
+### Title
 Tag:
 
 Refs:
@@ -17,7 +17,7 @@ EOM
 TODAY=$(date +%Y-%m-%d)
 # check if file exist
 if [[ ! -f  $TODAY.md ]]; then
-    echo "####" $TODAY >> $TODAY.md
+    echo "##" $TODAY >> $TODAY.md
     echo "$POST" >> $TODAY.md
 # else append
 else
