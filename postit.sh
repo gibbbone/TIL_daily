@@ -9,6 +9,7 @@ Tag:
 
 Refs:
 Useful characters: \`,~
+
 ---
 
 
@@ -18,6 +19,7 @@ TODAY=$(date +%Y-%m-%d)
 # check if file exist
 if [[ ! -f  $TODAY.md ]]; then
     echo "##" $TODAY >> $TODAY.md
+    echo "---" >> $TODAY.md    
     echo "$POST" >> $TODAY.md
 # else append
 else
