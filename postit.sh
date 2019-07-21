@@ -26,4 +26,4 @@ else
     echo "$POST" >> $TODAY.md
 fi
 
-micro $TODAY.md
+micro $TODAY.md:10000
