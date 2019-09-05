@@ -1,0 +1,12 @@
+- add CLI arguments to
+	- just modify today note (i.e without adding another one)
+	- set starting folder
+	- open last note in a markdown viewer
+
+- how to stitch together different markdown files?
+	- a for loop with cat?
+		- must respect order: easy with dates
+	- `mdmerge`
+- decide: use collapsed file as README?
+- git shortcut: merge + add + commit + push
+- global bash command to invoke from any place `[X]`
