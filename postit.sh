@@ -59,7 +59,7 @@ else
                         "Commit all changes" ) 
                             cd "$DESKTOP"/TIL_daily
                             git add *
-                            git commit -m $TODAY.md
+                            git commit -m $TODAY
                             git push
                             break
                             ;;
