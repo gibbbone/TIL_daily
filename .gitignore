@@ -1,1 +1,3 @@
-resources/
+resources/postit.sh
+setup_postit.sh
+personal/*

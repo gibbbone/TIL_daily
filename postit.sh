@@ -1,9 +1,19 @@
 #! /bin/bash
-while getopts 'zrc' flag; do
+personal='False'
+setup='False'
+mode='default'
+day='False'
+t='False'
+while getopts ':zrcpsd:D:' flag; do
     case "${flag}" in
         z) mode='modify_it' ;;
         r) mode='read_it' ;;
         c) mode='commit_it' ;;    
+        p) personal='True' ;;
+        s) setup='True' ;;
+        d) day=$(($OPTARG)) ;;        
+        D) t=$OPTARG ;;
+        :) day=1 ;;
         *) echo "Option: not recognized"
             exit 1 ;;
     esac
@@ -22,10 +32,35 @@ Useful characters: \`,~
 
 EOM
 
-TODAY=$(date +%Y-%m-%d)
-if [ $# -eq 0 ]; then    
+# read config file
+source "$HOME"/.config/postit/postit.config
+
+if [[ $setup == 'True' ]]; then
+	bash $postit_setup_file -u
+	exit 1 
+fi
+
+if [[ $personal == 'True' ]]; then
+	tf="$postit_target_folder/personal"
+else
+	tf="$postit_target_folder/notes"
+fi
+if [[ $day == 'False' ]]; then
+	TODAY=$(date +%Y-%m-%d)
+else
+	if [[ $t != 'False' ]]; then
+		TODAY=$(ls $tf | xargs -n 1 basename -s .md | grep $t | awk 'NR==1' )			
+	else
+		TODAY=$(ls -r $tf | basename -s .md $(awk -v d=$day 'NR==d' ))	
+	fi
+	if [[ $mode == 'default' ]]; then    	
+		mode='modify_it'
+	fi
+fi
+
+if [[ $mode == 'default' ]]; then    
     # move to specific folder
-    cd "$DESKTOP"/TIL_daily/notes
+    cd $tf
 
     # check if file exist
     if [[ ! -f  $TODAY.md ]]; then
@@ -36,19 +71,20 @@ if [ $# -eq 0 ]; then
     else
         echo "$POST" >> $TODAY.md
     fi
+    # open editor on the last line
     micro $TODAY.md:10000
 else
-    if [[ ! -f  "$DESKTOP"/TIL_daily/notes/"$TODAY".md ]]; then
+    if [[ ! -f  "$tf/$TODAY".md ]]; then
         echo "Error. Cannot run with options: file does not exists."
         exit 1
     else
         case "$mode" in
             modify_it)        
-                cd "$DESKTOP"/TIL_daily/notes
+                cd "$tf" 
                 micro $TODAY.md:10000
                 ;;
             read_it)
-                cd "$DESKTOP"/TIL_daily/notes
+            	cd "$tf"
                 cmd.exe /C start $TODAY.md
                 exit 1
                 ;;
@@ -57,12 +93,21 @@ else
                 select yn in "Commit all changes" "Abort"; do
                     case "$yn" in
                         "Commit all changes" ) 
-                            cd "$DESKTOP"/TIL_daily
-                            git add *
-                            git commit -m $TODAY
-                            git push
-                            break
-                            ;;
+                 	        cd "$postit_target_folder"                        
+                        	if [[ $personal == 'True' ]]; then
+                        		cd $tf
+                        		git add *
+                        		git commit -m $TODAY
+                        		cd ../$tf
+                        		break                        		
+                        	else
+                        		git ../$tf
+    	                        git add *
+        	                    git commit -m $TODAY
+            	                git push
+                	            break
+                	        fi
+                	        ;;                   	        
                         "Abort" ) 
                             break
                             ;;
