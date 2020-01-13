@@ -68,6 +68,7 @@ else
 	case "$arg1" in
 		y)	
 			echo "y: a copy of postit.sh has been saved in ~/bin/ and made executable"
+			cp postit.sh ~/bin/postit.sh			
 			sudo chmod +x ~/bin/postit.sh 
 			;;
 		n)

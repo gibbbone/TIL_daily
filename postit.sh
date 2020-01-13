@@ -12,8 +12,9 @@ while getopts ':zrcpsd:D:' flag; do
         p) personal='True' ;;
         s) setup='True' ;;
         d) day=$(($OPTARG)) ;;        
-        D) t=$OPTARG ;;
-        :) day=1 ;;
+        D) t=$OPTARG
+        	day='True' ;;
+        :) day=2 ;;
         *) echo "Option: not recognized"
             exit 1 ;;
     esac
@@ -49,9 +50,9 @@ if [[ $day == 'False' ]]; then
 	TODAY=$(date +%Y-%m-%d)
 else
 	if [[ $t != 'False' ]]; then
-		TODAY=$(ls $tf | xargs -n 1 basename -s .md | grep $t | awk 'NR==1' )			
+		TODAY=$(ls "$tf" | xargs -n 1 basename -s .md | grep $t | awk 'NR==1' )			
 	else
-		TODAY=$(ls -r $tf | basename -s .md $(awk -v d=$day 'NR==d' ))	
+		TODAY=$(ls -r "$tf" | basename -s .md $(awk -v d=$day 'NR==d' ))	
 	fi
 	if [[ $mode == 'default' ]]; then    	
 		mode='modify_it'
