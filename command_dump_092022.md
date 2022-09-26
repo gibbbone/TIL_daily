@@ -14,5 +14,8 @@ nohup jupyter notebook --no-browser --port=5678 &
 Useful to: ssh to kupyter on a remote server
 
 - Connect to server and forward to local port:
-ssh -L 1234:localhost:1234  <username>@<server name or IP>
+```
+ssh -L <port number>:localhost:<port number>  <username>@<server name or IP>
+```
+
 Useful to: open jupyter on your local machine
