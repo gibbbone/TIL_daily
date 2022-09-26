@@ -22,3 +22,17 @@ ssh -L <port number>:localhost:<port number>  <username>@<server name or IP>
 ```
 
 Useful to: open jupyter on your local machine
+
+- Get running list of jupyter notebooks
+```
+jupyter notebbok list
+```
+If this doesn't work and you need the token:
+```
+# Get folder with notebook details
+jupyter --runtime
+# sort by most recent
+ls -t -l 
+```
+Then inspect the corresponding JSON files
+
