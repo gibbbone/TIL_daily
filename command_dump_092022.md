@@ -1,5 +1,8 @@
 # Command dump - Sep. 2022
+
 The longer you use them, the oftener you forget them.
+
+---
 
 - Find all file with dimension lower than 4kb and print their name and dimension:
 ```
@@ -11,7 +14,7 @@ Useful to: check logfiles and results file why a script is running.
 ```
 nohup jupyter notebook --no-browser --port=5678 &
 ```
-Useful to: ssh to kupyter on a remote server
+Useful to: ssh to jupyter on a remote server
 
 - Connect to server and forward to local port:
 ```
